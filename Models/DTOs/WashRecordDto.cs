@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OptiWash.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace OptiWash.Models.DTOs
 {
@@ -17,7 +18,7 @@ namespace OptiWash.Models.DTOs
 
         public bool ExteriorCleaned { get; set; } = false;
 
- 
+        public WashStatus Status { get; set; } = WashStatus.Pending;
         public string Notes { get; set; }
     }
 }

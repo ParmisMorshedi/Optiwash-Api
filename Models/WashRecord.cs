@@ -2,13 +2,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using OptiWash.Models.Enums;
+using OptiWash.Models;
 
-public class WashRecord
+public class WashRecord : AuditableEntity
 {
     [Key]
     public int Id { get; set; }
-
-
   
 
     [ForeignKey("CarId")]
@@ -22,7 +22,9 @@ public class WashRecord
     public User User { get; set; }
     public string UserId { get; set; }
     [Required]
-    public DateTime WashDate { get; set; } 
+    public DateTime WashDate { get; set; }
+
+    public WashStatus Status { get; set; } = WashStatus.Pending;
 
     public bool InteriorCleaned { get; set; } = false;
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OptiWash.Models.Enums;
 using OptiWash.Repositories.IRepository;
 using System;
 using System.Collections.Generic;
@@ -25,18 +26,42 @@ public class WashRecordRepository : IWashRecordRepository
             throw new Exception($"Error retrieving wash record with ID {id}: {ex.Message}", ex);
         }
     }
+    public async Task<IEnumerable<WashRecord>> GetByStatusAsync(WashStatus status)
+    {
+        return await _context.WashRecords
+            .Where(w => w.Status == status)
+            .Include(w => w.Car)
+            .ToListAsync();
+    }
+
 
     public async Task<IEnumerable<WashRecord>> GetAllWashRecordsForCarAsync(int carId)
     {
         try
         {
-            return await _context.WashRecords.Where(w => w.CarId == carId).ToListAsync();
+            return await _context.WashRecords
+                .Where(w => w.CarId == carId)
+                .ToListAsync();
         }
         catch (Exception ex)
         {
             throw new Exception($"Error retrieving wash records for car ID {carId}: {ex.Message}", ex);
         }
     }
+    public async Task<IEnumerable<WashRecord>> GetAllWashRecordsAsync()
+    {
+        try
+        {
+            return await _context.WashRecords
+                .Include(w => w.Car)  
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error retrieving all wash records: {ex.Message}", ex);
+        }
+    }
+
 
     public async Task<IEnumerable<WashRecord>> GetIncompleteWashRecordsAsync()
     {

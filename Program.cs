@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using OptiWash.Repositories;
 
 namespace OptiWash
 {
@@ -37,7 +38,9 @@ namespace OptiWash
 
             builder.Services.AddScoped<ICarService, CarService>();
             builder.Services.AddScoped<IWashRecordService, WashRecordService>();
+            builder.Services.AddScoped<IOrganizationService, OrganizationService>();
             builder.Services.AddScoped<ICarRepository, CarRepository>();
+            builder.Services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             builder.Services.AddScoped<IWashRecordRepository, WashRecordRepository>();
           
             // Lägg till autentisering/autorisation efteråt

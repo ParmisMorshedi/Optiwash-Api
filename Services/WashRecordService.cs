@@ -1,4 +1,5 @@
 ﻿using OptiWash.Models.DTOs;
+using OptiWash.Models.Enums;
 using OptiWash.Repositories.IRepository;
 using OptiWash.Services.IServices;
 using System;
@@ -34,7 +35,8 @@ namespace OptiWash.Services
                     WashDate = DateTime.Now,
                     InteriorCleaned = washRecordDto.InteriorCleaned,
                     ExteriorCleaned= washRecordDto.InteriorCleaned,
-                    Notes = washRecordDto.Notes
+                    Notes = washRecordDto.Notes,
+                    Status = washRecordDto.Status
                 };
                 await _washRecordRepository.AddWashRecordAsync(newWashRecord);
             }
@@ -57,6 +59,7 @@ namespace OptiWash.Services
                     WashDate = wr.WashDate,
                     InteriorCleaned = wr.InteriorCleaned,
                     ExteriorCleaned = wr.ExteriorCleaned,
+                    Status = wr.Status,
                     Notes = wr.Notes
                 });
             }
@@ -65,6 +68,36 @@ namespace OptiWash.Services
                 throw new Exception($"Error retrieving wash records for car with ID {carId}: {ex.Message}", ex);
             }
         }
+        public async Task<IEnumerable<WashRecordSimpleDto>> GetAllWashRecordsAsync()
+        {
+            var washRecords = await _washRecordRepository.GetAllWashRecordsAsync();
+
+            return washRecords.Select(wr => new WashRecordSimpleDto
+            {
+                Id = wr.Id,
+                CarId = wr.CarId,
+                CarPlateNumber = wr.Car?.PlateNumber, 
+                WashDate = wr.WashDate,
+                InteriorCleaned = wr.InteriorCleaned,
+                ExteriorCleaned = wr.ExteriorCleaned,
+                Status = wr.Status,
+                Notes = wr.Notes
+            });
+        }
+
+        public async Task<IEnumerable<WashRecord>> GetWashRecordsByStatusAsync(WashStatus status)
+        {
+            try
+            {
+                var allRecords = await _washRecordRepository.GetAllWashRecordsAsync();
+                return allRecords.Where(w => w.Status == status).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error retrieving records with status {status}: {ex.Message}", ex);
+            }
+        }
+
 
         public async Task<IEnumerable<WashRecord>> GetIncompleteWashRecordsAsync()
         {

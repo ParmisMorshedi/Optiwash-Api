@@ -4,6 +4,7 @@ using OptiWash.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OptiWash.Models.DTOs;
+using OptiWash.Models.Enums;
 
 namespace OptiWash.Controllers
 {
@@ -20,11 +21,11 @@ namespace OptiWash.Controllers
         }
 
         // GET: api/washrecords
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<WashRecord>>> GetWashRecords()
+        [HttpGet("car/{carId}")]
+        public async Task<ActionResult<IEnumerable<WashRecord>>> GetWashRecords(int carId)
         {
 
-            var washRecords = await _washRecordService.GetIncompleteWashRecordsAsync();
+            var washRecords = await _washRecordService.GetAllWashRecordsForCarAsync(carId); 
             return Ok(washRecords);
         }
 
@@ -38,6 +39,20 @@ namespace OptiWash.Controllers
                 return NotFound();
             }
             return Ok(washRecord);
+        }
+        // GET: api/washrecords/status/{status}
+        [HttpGet("status/{status}")]
+        public async Task<ActionResult<IEnumerable<WashRecord>>> GetByStatus(WashStatus status)
+        {
+            var records = await _washRecordService.GetWashRecordsByStatusAsync(status);
+            return Ok(records);
+        }
+
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<WashRecordSimpleDto>>> GetAll()
+        {
+            var records = await _washRecordService.GetAllWashRecordsAsync();
+            return Ok(records);
         }
 
         // POST: api/washrecords
