@@ -8,7 +8,7 @@ namespace OptiWash.Services.IServices
         Task<Car> GetCarByLicensePlateAsync(string licensePlate);
         Task<IEnumerable<Car>> GetAllCarsAsync();
         Task AddCarAsync(CarDto carDto);
-        Task UpdateCarAsync(Car car);
+        Task UpdateCarAsync(CarDto carDto);
         Task DeleteCarAsync(int id);
     }
 }

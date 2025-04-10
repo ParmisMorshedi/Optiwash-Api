@@ -14,15 +14,17 @@ namespace OptiWash.Controllers
     {
         private readonly IWashRecordService _washRecordService;
         private readonly ICarService _carService;
+        private readonly IOrganizationService _organizationService;
 
-        public WashRecordsController(IWashRecordService washRecordService)
+        public WashRecordsController(IWashRecordService washRecordService, IOrganizationService organizationService)
         {
             _washRecordService = washRecordService;
+            _organizationService = organizationService;
         }
 
         // GET: api/washrecords
         [HttpGet("car/{carId}")]
-        public async Task<ActionResult<IEnumerable<WashRecord>>> GetWashRecords(int carId)
+        public async Task<ActionResult<IEnumerable<WashRecordDto>>> GetWashRecords(int carId)
         {
 
             var washRecords = await _washRecordService.GetAllWashRecordsForCarAsync(carId); 
@@ -65,13 +67,19 @@ namespace OptiWash.Controllers
 
         // PUT: api/washrecords/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWashRecord(int id, WashRecord washRecord)
+        public async Task<IActionResult> PutWashRecord(int id, [FromBody] UpdateWashRecordDto dto)
         {
-            if (id != washRecord.Id)
-            {
-                return BadRequest();
-            }
-            await _washRecordService.UpdateWashRecordAsync(washRecord);
+            var existing = await _washRecordService.GetWashRecordByIdAsync(id);
+            if (existing == null)
+                return NotFound();
+
+            existing.WashDate = dto.WashDate;
+            existing.InteriorCleaned = dto.InteriorCleaned;
+            existing.ExteriorCleaned = dto.ExteriorCleaned;
+            existing.Status = dto.Status;
+            existing.Notes = dto.Notes;
+
+            await _washRecordService.UpdateWashRecordAsync(existing);
             return NoContent();
         }
 
@@ -82,6 +90,74 @@ namespace OptiWash.Controllers
             await _washRecordService.DeleteWashRecordAsync(id);
             return NoContent();
         }
+        [HttpGet("monthly")]
+        public async Task<IActionResult> GetMonthlyRecords([FromQuery] string month)
+        {
+            if (!DateTime.TryParse($"{month}-01", out DateTime monthDate))
+                return BadRequest("Invalid month format");
+
+            var allRecords = await _washRecordService.GetAllWashRecordsWithCarAndOrgAsync();
+
+            var filtered = allRecords
+                .Where(r => r.WashDate.Month == monthDate.Month && r.WashDate.Year == monthDate.Year)
+                .ToList();
+
+            var grouped = filtered
+                .Where(r => r.Car.OrganizationId != null)
+                .GroupBy(r => r.Car.OrganizationId.Value)
+                .ToList();
+
+            var completed = new List<WashCompanyDto>();
+
+            var notCompleted = new List<WashCompanyDto>();
+
+            foreach (var group in grouped)
+            {
+                var org = group.First().Car.Organization;
+
+                var cars = group.Select(r => new WashCarDto
+                {
+                    PlateNumber = r.Car.PlateNumber,
+                    Interior = r.InteriorCleaned,
+                    Exterior = r.ExteriorCleaned,
+                    Status = r.Status.ToString(),
+                    Note = r.Notes
+                }).ToList();
+
+                var company = new WashCompanyDto
+                {
+                    Id = org.Id,
+                    Name = org.Name,
+                    City = org.Location,
+                    Cars = cars
+                };
+
+                if (cars.Any(c => c.Status == "Completed"))
+                {
+                    completed.Add(new WashCompanyDto
+                    {
+                        Id = org.Id,
+                        Name = org.Name,
+                        City = org.Location,
+                        Cars = cars.Where(c => c.Status == "Completed").ToList()
+                    });
+                }
+
+                if (cars.Any(c => c.Status != "Completed"))
+                {
+                    notCompleted.Add(new WashCompanyDto
+                    {
+                        Id = org.Id,
+                        Name = org.Name,
+                        City = org.Location,
+                        Cars = cars.Where(c => c.Status != "Completed").ToList()
+                    });
+                }
+            }
+
+            return Ok(new { completed, notCompleted });
+        }
+
     }
 }
 

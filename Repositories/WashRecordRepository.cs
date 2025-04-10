@@ -125,4 +125,12 @@ public class WashRecordRepository : IWashRecordRepository
             throw new Exception($"Error deleting wash record with ID {id}: {ex.Message}", ex);
         }
     }
+    public async Task<IEnumerable<WashRecord>> GetAllWashRecordsWithCarAndOrgAsync()
+    {
+        return await _context.WashRecords
+            .Include(w => w.Car)
+                .ThenInclude(c => c.Organization)
+            .ToListAsync();
+    }
+
 }

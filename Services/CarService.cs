@@ -52,15 +52,24 @@ namespace OptiWash.Services
             }
         }
 
-        public async Task UpdateCarAsync(Car car)
+        public async Task UpdateCarAsync(CarDto carDto)
         {
             try
             {
-                await _carRepository.UpdateCarAsync(car);
+                var existingCar = await _carRepository.GetCarByIdAsync(carDto.Id);
+                if (existingCar == null)
+                    throw new Exception($"Car with ID {carDto.Id} not found.");
+
+                
+                existingCar.PlateNumber = carDto.PlateNumber;
+                existingCar.ScannedLicensePlate = carDto.ScannedLicensePlate;
+
+                
+                await _carRepository.UpdateCarAsync(existingCar);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error updating car with ID {car.Id}: {ex.Message}", ex);
+                throw new Exception($"Error updating car with ID {carDto.Id}: {ex.Message}", ex);
             }
         }
 

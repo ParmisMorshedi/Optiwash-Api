@@ -6,11 +6,31 @@ using OptiWash.Services.IServices;
 public class OrganizationService : IOrganizationService
 {
     private readonly IOrganizationRepository _organizationRepository;
+    private readonly ICarRepository _carRepository;
 
-    public OrganizationService(IOrganizationRepository organizationRepository)
+    public OrganizationService(IOrganizationRepository organizationRepository, ICarRepository carRepository)
     {
         _organizationRepository = organizationRepository;
+        _carRepository = carRepository; 
     }
+    public async Task AddCarToOrganizationAsync(int orgId, int carId)
+    {
+
+        var org = await _organizationRepository.GetByIdAsync(orgId);
+        if (org == null) throw new Exception("Organization not found");
+
+        var car = await _carRepository.GetCarByIdAsync(carId);
+        if (car == null) throw new Exception("Car not found");
+     
+        car.OrganizationId = org.Id;
+        car.Organization = org;
+        await _carRepository.UpdateCarAsync(car);
+
+        if (org.Cars == null) org.Cars = new List<Car>();
+        org.Cars.Add(car);
+        //await _organizationRepository.UpdateAsync(org);
+    }
+
 
     public async Task<IEnumerable<OrganizationDto>> GetAllAsync()
     {

@@ -54,7 +54,7 @@ namespace OptiWash.Services
 
                 return washRecords.Select(wr => new WashRecordDto
                 {
-             
+                    Id = wr.Id,
                     CarId = wr.CarId,
                     WashDate = wr.WashDate,
                     InteriorCleaned = wr.InteriorCleaned,
@@ -146,5 +146,12 @@ namespace OptiWash.Services
                 throw new Exception($"Error deleting wash record with ID {id}: {ex.Message}", ex);
             }
         }
+        public async Task<IEnumerable<WashRecord>> GetAllWashRecordsWithCarAndOrgAsync()
+        {
+            return await _washRecordRepository.GetAllWashRecordsWithCarAndOrgAsync();
+        }
+
+
     }
+
 }

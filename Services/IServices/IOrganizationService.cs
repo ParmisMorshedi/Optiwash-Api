@@ -11,6 +11,8 @@ namespace OptiWash.Services.IServices
         Task<OrganizationDto> GetByIdAsync(int id);
         Task AddAsync(OrganizationDto dto);
         Task UpdateAsync(int id, OrganizationDto dto);
+        Task AddCarToOrganizationAsync(int orgId, int carId);
+
         Task DeleteAsync(int id);
     }
 }

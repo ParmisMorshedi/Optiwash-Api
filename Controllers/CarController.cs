@@ -62,13 +62,13 @@ namespace OptiWash.Controllers
 
         // PUT: api/cars/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar(int id, Car car)
+        public async Task<IActionResult> PutCar(int id, CarDto carDto)
         {
-            if (id != car.Id)
+            if (id != carDto.Id)
             {
                 return BadRequest();
             }
-            await _carService.UpdateCarAsync(car);
+            await _carService.UpdateCarAsync(carDto);
             return NoContent();
         }
 
@@ -79,6 +79,16 @@ namespace OptiWash.Controllers
             await _carService.DeleteCarAsync(id);
             return NoContent();
         }
+        [HttpGet("plate/{plate}")]
+        public async Task<IActionResult> GetByPlate(string plate)
+        {
+            var car = await _carService.GetCarByLicensePlateAsync(plate);
+            if (car == null)
+                return NotFound();
+
+            return Ok(car);
+        }
+
     }
 }
 

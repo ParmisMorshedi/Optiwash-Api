@@ -10,10 +10,10 @@ namespace OptiWash.Models
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; } // Ex: “Polisen Solna”, “Trafikverket Huddinge”
+        public string Name { get; set; } 
 
         [StringLength(100)]
-        public string Location { get; set; } // Optional - e.g., "Solna", "Huddinge"
+        public string Location { get; set; } 
 
         // Navigation: One organization can have many cars
         public ICollection<Car> Cars { get; set; }

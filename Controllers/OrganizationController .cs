@@ -21,6 +21,13 @@ public class OrganizationsController : ControllerBase
     public async Task<IActionResult> Get(int id) =>
         Ok(await _organizationService.GetByIdAsync(id));
 
+    [HttpPost("{id}/AddCar")]
+    public async Task<IActionResult> AddCarToOrganization(int id, [FromBody] AddCarToOrgDto request)
+    {
+        await _organizationService.AddCarToOrganizationAsync(id, request.CarId);
+        return Ok();
+    }
+
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] OrganizationDto dto)
     {

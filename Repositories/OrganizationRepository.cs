@@ -3,6 +3,7 @@ using OptiWash.Models;
 using OptiWash.Repositories.IRepository;
 using System;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using System.Threading.Tasks;
 
 namespace OptiWash.Repositories
@@ -62,6 +63,14 @@ namespace OptiWash.Repositories
         {
             try
             {
+                _context.Entry(organization).State = EntityState.Modified;
+
+                foreach (var car in organization.Cars)
+                {
+                    _context.Entry(car).State = EntityState.Unchanged;
+                }
+
+
                 organization.UpdatedDate = DateTime.UtcNow;
                 _context.Organizations.Update(organization);
                 await _context.SaveChangesAsync();

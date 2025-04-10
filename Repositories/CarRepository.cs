@@ -31,13 +31,15 @@ public class CarRepository : ICarRepository
     {
         try
         {
-            return await _context.Cars.FirstOrDefaultAsync(c => c.PlateNumber == licensePlate);
+            return await _context.Cars
+                .FirstOrDefaultAsync(c => c.PlateNumber.ToLower() == licensePlate.ToLower());
         }
         catch (Exception ex)
         {
             throw new Exception($"Error retrieving car with license plate {licensePlate}: {ex.Message}", ex);
         }
     }
+
 
     public async Task<IEnumerable<Car>> GetAllCarsAsync()
     {
