@@ -52,11 +52,11 @@ namespace OptiWash.Controllers
             {
                 await _carService.AddCarAsync(carDto);
 
-                return Ok("Car created");
+                return Ok(new { message = "Bilen är registerad" });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An error occurred while adding the category.", error = ex.Message });
+                return StatusCode(500, new { message = "Ett fel inträffade vid registrering.", error = ex.Message });
             }
         }
 
@@ -69,7 +69,7 @@ namespace OptiWash.Controllers
                 return BadRequest();
             }
             await _carService.UpdateCarAsync(carDto);
-            return NoContent();
+            return Ok(new { message = "Bilen  är uppdaterad" });
         }
 
         // DELETE: api/cars/{id}
@@ -77,7 +77,7 @@ namespace OptiWash.Controllers
         public async Task<IActionResult> DeleteCar(int id)
         {
             await _carService.DeleteCarAsync(id);
-            return NoContent();
+            return Ok(new { message = "Bilen har tagits bort!" });
         }
         [HttpGet("plate/{plate}")]
         public async Task<IActionResult> GetByPlate(string plate)

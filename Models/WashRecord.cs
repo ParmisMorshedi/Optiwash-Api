@@ -16,11 +16,11 @@ public class WashRecord : AuditableEntity
     public int CarId { get; set; }
 
 
-    [SwaggerSchema(Format = "uuid", Description = "User ID in GUID format")]
+    //[SwaggerSchema(Format = "uuid", Description = "User ID in GUID format")]
 
-    [ForeignKey("UserId")]
-    public User User { get; set; }
-    public string UserId { get; set; }
+    //[ForeignKey("UserId")]
+    //public User User { get; set; }
+    //public string UserId { get; set; }
     [Required]
     public DateTime WashDate { get; set; }
 

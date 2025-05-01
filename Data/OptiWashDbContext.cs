@@ -22,10 +22,7 @@ public class OptiWashDbContext : IdentityDbContext<User>
             .WithMany(c => c.WashHistory)
             .HasForeignKey(w => w.CarId);
 
-        modelBuilder.Entity<WashRecord>()
-            .HasOne(w => w.User)
-            .WithMany(u => u.WashRecords)
-            .HasForeignKey(w => w.UserId);
+       
     }
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

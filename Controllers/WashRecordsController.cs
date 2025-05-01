@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OptiWash.Models.DTOs;
 using OptiWash.Models.Enums;
+using static Azure.Core.HttpHeader;
 
 namespace OptiWash.Controllers
 {
@@ -24,7 +25,7 @@ namespace OptiWash.Controllers
 
         // GET: api/washrecords
         [HttpGet("car/{carId}")]
-        public async Task<ActionResult<IEnumerable<WashRecordDto>>> GetWashRecords(int carId)
+        public async Task<ActionResult<IEnumerable<WashRecordSimpleDto>>> GetWashRecords(int carId)
         {
 
             var washRecords = await _washRecordService.GetAllWashRecordsForCarAsync(carId); 
@@ -33,7 +34,7 @@ namespace OptiWash.Controllers
 
         // GET: api/washrecords/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<WashRecord>> GetWashRecord(int id)
+        public async Task<ActionResult<WashRecordDto>> GetWashRecord(int id)
         {
             var washRecord = await _washRecordService.GetWashRecordByIdAsync(id);
             if (washRecord == null)
@@ -44,10 +45,24 @@ namespace OptiWash.Controllers
         }
         // GET: api/washrecords/status/{status}
         [HttpGet("status/{status}")]
-        public async Task<ActionResult<IEnumerable<WashRecord>>> GetByStatus(WashStatus status)
+        public async Task<ActionResult<IEnumerable<WashRecordWithOrganization_CarDto>>> GetByStatus(WashStatus status)
         {
             var records = await _washRecordService.GetWashRecordsByStatusAsync(status);
-            return Ok(records);
+            var dtos = records.Select(r => new WashRecordWithOrganization_CarDto
+            {
+                Id = r.Id,
+                CarId = r.CarId,
+                CarPlateNumber = r.Car?.PlateNumber,
+                OrganizationName = r.Car?.Organization?.Name,
+                OrganizationCity = r.Car?.Organization?.Location,
+                WashDate = r.WashDate,
+                InteriorCleaned = r.InteriorCleaned,
+                ExteriorCleaned = r.ExteriorCleaned,
+                Status = r.Status,
+                Notes = r.Notes
+            }).ToList();
+
+            return Ok(dtos);
         }
 
         [HttpGet("all")]
@@ -120,7 +135,7 @@ namespace OptiWash.Controllers
                     PlateNumber = r.Car.PlateNumber,
                     Interior = r.InteriorCleaned,
                     Exterior = r.ExteriorCleaned,
-                    Status = r.Status.ToString(),
+                    Status = r.Status,
                     Note = r.Notes
                 }).ToList();
 
@@ -132,25 +147,25 @@ namespace OptiWash.Controllers
                     Cars = cars
                 };
 
-                if (cars.Any(c => c.Status == "Completed"))
+                if (cars.Any(c => c.Status == WashStatus.Completed))
                 {
                     completed.Add(new WashCompanyDto
                     {
                         Id = org.Id,
                         Name = org.Name,
                         City = org.Location,
-                        Cars = cars.Where(c => c.Status == "Completed").ToList()
+                        Cars = cars.Where(c => c.Status == WashStatus.Completed).ToList()
                     });
                 }
 
-                if (cars.Any(c => c.Status != "Completed"))
+                if (cars.Any(c => c.Status != WashStatus.Completed))
                 {
                     notCompleted.Add(new WashCompanyDto
                     {
                         Id = org.Id,
                         Name = org.Name,
                         City = org.Location,
-                        Cars = cars.Where(c => c.Status != "Completed").ToList()
+                        Cars = cars.Where(c => c.Status != WashStatus.Completed).ToList()
                     });
                 }
             }

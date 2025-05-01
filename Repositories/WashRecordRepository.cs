@@ -48,6 +48,14 @@ public class WashRecordRepository : IWashRecordRepository
             throw new Exception($"Error retrieving wash records for car ID {carId}: {ex.Message}", ex);
         }
     }
+    public async Task<IEnumerable<WashRecord>> GetWashRecordsWithCarAndOrgAsync()
+    {
+        return await _context.WashRecords
+            .Include(w => w.Car)
+                .ThenInclude(c => c.Organization)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<WashRecord>> GetAllWashRecordsAsync()
     {
         try

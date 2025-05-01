@@ -6,7 +6,8 @@ namespace OptiWash.Repositories.IRepository
     {
         Task<WashRecord> GetWashRecordByIdAsync(int id);
         Task<IEnumerable<WashRecord>> GetAllWashRecordsForCarAsync(int carId);
-        
+        Task<IEnumerable<WashRecord>> GetWashRecordsWithCarAndOrgAsync();
+
         Task<IEnumerable<WashRecord>> GetAllWashRecordsAsync();
         Task<IEnumerable<WashRecord>> GetIncompleteWashRecordsAsync();
         Task<IEnumerable<WashRecord>> GetByStatusAsync(WashStatus status);

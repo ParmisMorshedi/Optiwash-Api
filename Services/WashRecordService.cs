@@ -1,4 +1,5 @@
-﻿using OptiWash.Models.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using OptiWash.Models.DTOs;
 using OptiWash.Models.Enums;
 using OptiWash.Repositories.IRepository;
 using OptiWash.Services.IServices;
@@ -31,7 +32,6 @@ namespace OptiWash.Services
                 var newWashRecord = new WashRecord() 
                 { 
                     CarId = car.Id,
-                    UserId = washRecordDto.UserId,
                     WashDate = DateTime.Now,
                     InteriorCleaned = washRecordDto.InteriorCleaned,
                     ExteriorCleaned= washRecordDto.InteriorCleaned,
@@ -75,7 +75,7 @@ namespace OptiWash.Services
             return washRecords.Select(wr => new WashRecordSimpleDto
             {
                 Id = wr.Id,
-                CarId = wr.CarId,
+                //CarId = wr.CarId,
                 CarPlateNumber = wr.Car?.PlateNumber, 
                 WashDate = wr.WashDate,
                 InteriorCleaned = wr.InteriorCleaned,
@@ -84,13 +84,16 @@ namespace OptiWash.Services
                 Notes = wr.Notes
             });
         }
+    
 
         public async Task<IEnumerable<WashRecord>> GetWashRecordsByStatusAsync(WashStatus status)
         {
             try
             {
-                var allRecords = await _washRecordRepository.GetAllWashRecordsAsync();
-                return allRecords.Where(w => w.Status == status).ToList();
+                var allRecords = await _washRecordRepository.GetWashRecordsWithCarAndOrgAsync();
+                return allRecords.Where(w => w.Status == status)
+                    
+                    .ToList();
             }
             catch (Exception ex)
             {
