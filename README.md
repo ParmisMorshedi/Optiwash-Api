@@ -101,6 +101,7 @@ Unit tests are written using **xUnit** and **Moq**.
 - Car and Organization services  
 - Data handling and exception behavior
 
+---
 ### 👤 Author
 
 Developed by **Parmis Morshedi**  
