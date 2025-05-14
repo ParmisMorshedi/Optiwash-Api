@@ -6,14 +6,16 @@ OptiWash is a backend API built with ASP.NET Core for managing and tracking inte
 
 ## ✨ Features
 
+- API endpoints for managing organizations, cars, and wash records
+- Secure user registration and login with ASP.NET Core Identity
 - Manage multiple organizations and their vehicle fleets
+- Add, update, and delete cars linked to organizations
 - Track wash records (interior/exterior) per vehicle
-- Mark wash completion status
-- Monthly view of pending/completed washes
-- View history and register missed or failed washes
+- Mark wash records as completed, failed, or pending
+- Monthly summary of completed and not completed washes per organization
 - Clean architecture: Controller → Service → Repository
-- Full Swagger UI for API testing
-- xUnit + Moq unit testing
+- Full Swagger UI for API testing and documentation
+- Unit testing with xUnit and Moq
 
 ---
 
@@ -29,13 +31,13 @@ OptiWash is a backend API built with ASP.NET Core for managing and tracking inte
 
 The project uses the following main NuGet packages:
 
-- `Microsoft.EntityFrameworkCore.SqlServer` 
-- `Microsoft.EntityFrameworkCore`
-- `Microsoft.EntityFrameworkCore.Tools`
-- `Microsoft.EntityFrameworkCore.Design`
-- `Microsoft.AspNetCore.Authentication.JwtBearer` 
-- `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
-- `xunit`, `moq` 
+- `Microsoft.EntityFrameworkCore.SqlServer`– for database integration  
+- `Microsoft.EntityFrameworkCore`- ORM for database interactions
+- `Microsoft.EntityFrameworkCore.Tools` - Tools for Entity Framework Core, used for database migrations and scaffolding.
+- `Microsoft.EntityFrameworkCore.Design` - Design-time tools for Entity Framework Core, used for migrations and database updates.
+- `Microsoft.AspNetCore.Authentication.JwtBearer` – for JWT-based authentication  
+- `Microsoft.AspNetCore.Identity.EntityFrameworkCore` – provides ASP.NET Core Identity support using EF Core, including user and role management  
+- `xunit`, `moq` – for unit testing  
 
 
 ---
