@@ -11,7 +11,6 @@ OptiWash is a backend API built with ASP.NET Core for managing and tracking inte
 - Mark wash completion status
 - Monthly view of pending/completed washes
 - View history and register missed or failed washes
-- Server-side pagination for efficient data handling
 - Clean architecture: Controller → Service → Repository
 - Full Swagger UI for API testing
 - xUnit + Moq unit testing
@@ -20,12 +19,24 @@ OptiWash is a backend API built with ASP.NET Core for managing and tracking inte
 
 ## 🛠 Technologies Used
 
-- ASP.NET Core Web API (.NET 6 or later)
+- ASP.NET Core Web API (.NET 8)
 - Entity Framework Core
 - SQL Server
 - Swagger (Swashbuckle)
 - xUnit + Moq (unit testing)
-- AutoMapper (if configured)
+
+## 📦 NuGet Packages
+
+The project uses the following main NuGet packages:
+
+- `Microsoft.EntityFrameworkCore.SqlServer` 
+- `Microsoft.EntityFrameworkCore`
+- `Microsoft.EntityFrameworkCore.Tools`
+- `Microsoft.EntityFrameworkCore.Design`
+- `Microsoft.AspNetCore.Authentication.JwtBearer` 
+- `Microsoft.AspNetCore.Identity.EntityFrameworkCore`
+- `xunit`, `moq` 
+
 
 ---
 
@@ -33,9 +44,9 @@ OptiWash is a backend API built with ASP.NET Core for managing and tracking inte
 
 ### Prerequisites
 
-- .NET 6 SDK or newer
+- .NET 8 SDK 
 - SQL Server (local or cloud)
-- Visual Studio or VS Code
+- Visual Studio 
 
 ### Installation Steps
 
@@ -49,7 +60,7 @@ OptiWash is a backend API built with ASP.NET Core for managing and tracking inte
 
    ```bash
    "ConnectionStrings": {
-   "DefaultConnection": "Server=YOUR_SERVER;Database=OptiWashDb;User Id=YOUR_USER;Password=YOUR_PASSWORD;"
+   "DefaultConnection": "Server=YOUR_SERVER;Database=OptiWashDb;"
    }
    
 3. **Apply database migrations**
