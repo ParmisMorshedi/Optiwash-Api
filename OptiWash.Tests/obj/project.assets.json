@@ -4253,13 +4253,14 @@
     },
     "OptiWash/1.0.0": {
       "type": "project",
-      "path": "../OptiWash/OptiWash.csproj",
-      "msbuildProject": "../OptiWash/OptiWash.csproj"
+      "path": "../OptiWash.csproj",
+      "msbuildProject": "../OptiWash.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.NET.Test.Sdk >= 17.8.0",
+      "Moq >= 4.20.72",
       "OptiWash >= 1.0.0",
       "coverlet.collector >= 6.0.0",
       "xunit >= 2.9.3",
@@ -4299,8 +4300,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\parmi\\source\\repos\\Examensarbete\\Backend\\OptiWash\\OptiWash.csproj": {
-              "projectPath": "C:\\Users\\parmi\\source\\repos\\Examensarbete\\Backend\\OptiWash\\OptiWash.csproj"
+            "C:\\Users\\parmi\\source\\repos\\Examensarbete\\Backend\\OptiWash.csproj": {
+              "projectPath": "C:\\Users\\parmi\\source\\repos\\Examensarbete\\Backend\\OptiWash.csproj"
+            },
+            "C:\\Users\\parmi\\source\\repos\\Examensarbete\\Backend\\Optiwash\\OptiWash.csproj": {
+              "projectPath": "C:\\Users\\parmi\\source\\repos\\Examensarbete\\Backend\\Optiwash\\OptiWash.csproj"
             }
           }
         }
@@ -4323,6 +4327,10 @@
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[17.8.0, )"
+          },
+          "Moq": {
+            "target": "Package",
+            "version": "[4.20.72, )"
           },
           "coverlet.collector": {
             "target": "Package",
