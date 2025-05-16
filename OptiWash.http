@@ -1,0 +1,6 @@
+@OptiWash_HostAddress = http://localhost:5156
+
+GET {{OptiWash_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
