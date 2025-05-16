@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OptiWash.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14d4bce76e904357cd42024661d7a19088dd615f")]
 [assembly: System.Reflection.AssemblyProductAttribute("OptiWash.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OptiWash.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

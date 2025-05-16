@@ -189,3 +189,6 @@ C:\Users\parmi\source\repos\Examensarbete\Backend\OptiWash.Tests\obj\Debug\net8.
 C:\Users\parmi\source\repos\Examensarbete\Backend\OptiWash.Tests\obj\Debug\net8.0\OptiWash.Tests.pdb
 C:\Users\parmi\source\repos\Examensarbete\Backend\OptiWash.Tests\obj\Debug\net8.0\OptiWash.Tests.genruntimeconfig.cache
 C:\Users\parmi\source\repos\Examensarbete\Backend\OptiWash.Tests\obj\Debug\net8.0\ref\OptiWash.Tests.dll
+C:\Users\parmi\source\repos\Examensarbete\Backend\OptiWash.Tests\bin\Debug\net8.0\OptiWash.Tests.dll.config
+C:\Users\parmi\source\repos\Examensarbete\Backend\OptiWash.Tests\bin\Debug\net8.0\Microsoft.Data.Tools.Schema.Sql.UnitTesting.dll
+C:\Users\parmi\source\repos\Examensarbete\Backend\OptiWash.Tests\bin\Debug\net8.0\Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter.dll
